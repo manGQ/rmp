@@ -54,7 +54,6 @@ public class CatalogActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Отвечаем на щелчок по пункту меню "Вставить фиктивные данные"
             case R.id.action_insert_dummy_data:
-                // Пока ничего не делаем
                 return true;
             // Отвечаем на щелчок по пункту меню "Удалить все записи"
             case R.id.action_delete_all_entries:

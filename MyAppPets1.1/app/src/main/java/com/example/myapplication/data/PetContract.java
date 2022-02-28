@@ -5,7 +5,7 @@ import android.provider.BaseColumns;
 public final class PetContract {
 
     //Внутренний класс, определяющий постоянные значения для таблицы базы данных животных.
-    //Каждая запись в таблице соответствует одному животному.
+    //Кажд ая запись в таблице соответствует одному животному.
     public static final class PetEntry implements BaseColumns {
 
         //Название таблицы

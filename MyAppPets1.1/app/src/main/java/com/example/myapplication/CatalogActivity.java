@@ -1,6 +1,7 @@
 
 package com.example.myapplication;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,7 +13,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication.data.PetContract;
+import com.example.myapplication.data.PetContract.PetEntry;
 import com.example.myapplication.data.PetDbHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -40,6 +41,21 @@ public class CatalogActivity extends AppCompatActivity {
         displayDatabaseInfo();
     }
 
+    private void insertPet() {
+
+        PetDbHelper mDbHelper = new PetDbHelper(this);
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(PetEntry.COLUMN_PET_NAME, "Toto");
+        values.put(PetEntry.COLUMN_PET_BREED, "Terrier");
+        values.put(PetEntry.COLUMN_PET_GENDER, PetEntry.GENDER_MALE);
+        values.put(PetEntry.COLUMN_PET_WEIGHT, 7);
+        db.insert(PetEntry.TABLE_NAME, null, values);
+
+        displayDatabaseInfo();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Расширение пунктов меню из файла res / menu / menu_catalog.xml.
@@ -54,7 +70,7 @@ public class CatalogActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Отвечаем на щелчок по пункту меню "Вставить фиктивные данные"
             case R.id.action_insert_dummy_data:
-                // Пока ничего не делаем
+                insertPet();
                 return true;
             // Отвечаем на щелчок по пункту меню "Удалить все записи"
             case R.id.action_delete_all_entries:
@@ -70,8 +86,8 @@ public class CatalogActivity extends AppCompatActivity {
      */
     private void displayDatabaseInfo() {
 
-        // Чтобы получить доступ к нашей базе данных, мы создаем экземпляр нашего подкласса SQLiteOpenHelper
-        // и передать контекст, который является текущей активностью.
+        // Чтобы получить доступ к нашей базе данных, мы создаем экземпляр нашего подкласса
+        // SQLiteOpenHelper и передать контекст, который является текущей активностью.
         PetDbHelper mDbHelper = new PetDbHelper(this);
 
         // Создаем и/или открываем базу данных для чтения из нее
@@ -79,7 +95,7 @@ public class CatalogActivity extends AppCompatActivity {
 
         // Выполняем этот необработанный SQL-запрос "SELECT * FROM pets"
         // чтобы получить курсор, содержащий все строки из таблицы pets.
-        Cursor cursor = db.rawQuery("SELECT * FROM " + PetContract.PetEntry.TABLE_NAME, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + PetEntry.TABLE_NAME, null);
         try {
             // Отображаем количество строк в курсоре (которое отражает количество строк в
             // таблица pets в базе данных).
